@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto GTK SMA Negeri 1 Turen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-white">
+
+    <div class="bokeh-bg">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="animated-bg"></div>
+    
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-[#000428]">
+        <div class="text-center">
+            <img src="../assets/smanerelogo.png" alt="Logo SMAN 1 Turen" class="w-32 h-32 mx-auto mb-4 logo-pulse">
+            <h1 class="text-3xl font-bold mt-4">Pencari Foto GTK</h1>
+            <p class="text-gray-300 mt-2">Memuat sumber daya...</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="min-h-screen w-full flex flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-1000 relative z-10">
+        <div class="w-full max-w-md mx-auto">
+            
+            <!-- Search Form View -->
+            <div id="search-view" class="w-full fade-in">
+                <div class="text-center mb-8">
+                    <img src="../assets/smanerelogo.png" alt="Logo SMAN 1 Turen" class="w-24 h-24 mx-auto mb-6">
+                    <h1 class="text-4xl font-extrabold tracking-tight">Arsip Foto GTK</h1>
+                    <p class="text-gray-300 mt-3 text-lg">Masukkan NIP / No Pegawai untuk mencari foto.</p>
+                </div>
+                
+                <div id="instruction-card" class="relative glass-card rounded-2xl p-6 shadow-xl mb-6 border-l-4 border-cyan-400 fade-in transition-all duration-300">
+                    <button id="close-instruction-btn" class="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <h4 class="text-lg font-semibold text-white mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Petunjuk Pengisian
+                    </h4>
+                    <ul class="list-disc list-inside text-gray-300 text-sm space-y-2 pl-2">
+                        <li>Jika Anda adalah <strong>Guru (ASN)</strong>, masukkan NIP Anda dengan benar.</li>
+                        <li>Jika Anda adalah <strong>Tendik/Guru (PTT/Honorer)</strong>, masukkan NPSN diikuti Nomor Urut Kepegawaian tanpa spasi. Contoh: <code class="bg-gray-800 rounded px-1.5 py-1 text-cyan-300">2051773780</code></li>
+                    </ul>
+                </div>
+
+                <div id="search-form-container" class="glass-card rounded-2xl p-8 shadow-2xl hidden">
+                    <form id="search-form">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-300 mb-3">Pilih Tipe GTK</label>
+                            <div class="flex justify-center items-center space-x-4 custom-radio">
+                                <input type="radio" id="asn" name="teacher_type" value="ASN" checked>
+                                <label for="asn">ASN</label>
+
+                                <input type="radio" id="honorer" name="teacher_type" value="Honorer">
+                                <label for="honorer">Non-ASN</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="teacher-id" id="teacher-id-label" class="block text-sm font-medium text-gray-300 mb-2">Nomor Induk Pegawai</label>
+                            <input type="text" id="teacher-id" name="teacher-id" class="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300" placeholder="contoh: 19700827200501xxxx" required>
+                        </div>
+                        
+                        <p id="error-message" class="text-red-400 text-sm mt-3 text-center h-5"></p>
+
+                        <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-4 rounded-lg mt-4 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/30">
+                            Cari GTK
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results View -->
+            <div id="results-view" class="w-full hidden fade-in-late">
+                 <div class="text-center mb-8">
+                     <img src="../assets/smanerelogo.png" alt="Logo SMAN 1 Turen" class="w-20 h-20 mx-auto mb-4">
+                    <h2 class="text-3xl font-bold">Hasil Pencarian</h2>
+                    <p class="text-gray-300 mt-2">Apakah ini orang yang benar?</p>
+                </div>
+                <div class="glass-card rounded-2xl p-8 shadow-2xl text-center">
+                    <h3 id="teacher-name" class="text-2xl font-bold mb-6"></h3>
+                    <p class="text-gray-300 mb-6">Pilih tahun untuk melihat folder foto:</p>
+                    <div class="flex justify-center space-x-4">
+                        <button data-year="2022" class="photo-btn bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded-lg transition-transform transform hover:scale-110 shadow-lg shadow-teal-500/30">2022</button>
+                        <button data-year="2023" class="photo-btn bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded-lg transition-transform transform hover:scale-110 shadow-lg shadow-teal-500/30">2023</button>
+                        <button data-year="2025" class="photo-btn bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded-lg transition-transform transform hover:scale-110 shadow-lg shadow-teal-500/30">2025</button>
+                    </div>
+                    <p id="folder-message" class="text-red-400 text-sm mt-4 text-center h-5"></p>
+                     <button id="back-to-search" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg mt-8 transition-all duration-300">
+                        Cari Lagi
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-400 text-sm fade-in relative z-10">
+            <p>&copy; 2025 Tata Usaha SMA Negeri 1 Turen</p>
+        </footer>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
